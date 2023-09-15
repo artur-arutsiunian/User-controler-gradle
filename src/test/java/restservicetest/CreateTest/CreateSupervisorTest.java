@@ -77,12 +77,21 @@ public class CreateSupervisorTest {
         Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
-    @Test(description = "Send wrong 'password' field")
+    @DataProvider(name = "invalidPassword")
+    public Object[][] invalidPassword() {
+        return new Object[][]{
+                {"123456"},
+                {"fbfhbdfdhsfbsdfdksjsdsdd"},
+                {"ыаавоытавыатывлдаыллд"}
+        };
+    }
+
+    @Test(dataProvider = "invalidPassword",description = "Send wrong 'password' field")
     @Description("Send wrong user password")
-    public void verifyingPasswordNegativeTest() {
+    public void verifyingPasswordNegativeTest(String password) {
         CreateRequest rCP = new CreateRequest.Builder()
                 .request(createReq)
-                .buildPassword("123456")
+                .buildPassword(password)
                 .build();
         Map<String, Object> requestMap = rCP.toMap();
         Response respCP = requestService.send(requestMap, "supervisor");
