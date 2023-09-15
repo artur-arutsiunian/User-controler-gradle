@@ -86,7 +86,7 @@ public class CreateSupervisorTest {
         };
     }
 
-    @Test(dataProvider = "invalidPassword",description = "Send wrong 'password' field")
+    @Test(dataProvider = "invalidPassword", description = "Send wrong 'password' field")
     @Description("Send wrong user password")
     public void verifyingPasswordNegativeTest(String password) {
         CreateRequest rCP = new CreateRequest.Builder()
