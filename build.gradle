@@ -6,7 +6,7 @@ plugins {
 repositories {
     mavenCentral()
     jcenter()
-    maven { url 'https://plugins.gradle.org/m2/' } // Добавим репозиторий Gradle Plugins
+    maven { url 'https://plugins.gradle.org/m2/' }
 }
 
 dependencies {

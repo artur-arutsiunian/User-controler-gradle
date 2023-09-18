@@ -9,6 +9,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import restservice.pojo.userDelete.DeleteRequest;
 import restservice.pojo.userGet.request.GetRequest;
+import restservice.pojo.userGet.response.PlayersResponse;
 import restservice.pojo.userPatch.request.PatchRequest;
 
 import java.util.Map;
@@ -48,5 +49,10 @@ public class RequestService {
     public Response send(GetRequest gr) {
         return given().body(gr)
                 .post("/get");
+    }
+
+    public Response send() {
+        return given()
+                .get("/get/all");
     }
 }

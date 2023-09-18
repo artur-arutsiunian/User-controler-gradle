@@ -10,8 +10,13 @@ import restservice.helpers.AssertionsHelper;
 import restservice.RequestService;
 import restservice.pojo.userCreate.request.CreateRequest;
 import restservice.pojo.userCreate.response.CreateResponse;
+import restservice.pojo.userGet.response.PlayerResponse;
+import restservice.pojo.userGet.response.PlayersResponse;
 
-import java.util.Map;
+import java.util.*;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class CreateAdminTest {
 
@@ -46,9 +51,9 @@ public class CreateAdminTest {
 
     @DataProvider(name = "validRoles")
     public Object[][] validRoles() {
-        return new Object[][] {
-                { "admin" },
-                { "user" }
+        return new Object[][]{
+                {"admin"},
+                {"user"}
         };
     }
 
@@ -60,11 +65,25 @@ public class CreateAdminTest {
                 .buildRole(role)
                 .build();
         Map<String, Object> requestMap = rCP.toMap();
-        Response respCP = requestService.send(requestMap, "supervisor");
+        Response respCP = requestService.send(requestMap, "admin");
         AssertionsHelper.assertStatusCodeOKAndContentTypeOK(respCP);
         CreateResponse actualResp = respCP.as(CreateResponse.class);
         CreateResponse expectedResp = rCP.toCreateResponse();
         expectedResp.setId(respCP.jsonPath().get("id"));
-        Assert.assertEquals(actualResp, expectedResp, "Fields aren't equal");
+        assertEquals(actualResp, expectedResp, "Fields aren't equal");
+
+        Response listRQ = requestService.send();
+        AssertionsHelper.assertStatusCodeOKAndContentTypeOK(listRQ);
+        PlayersResponse actualListResp = listRQ.as(PlayersResponse.class);
+        List<PlayerResponse> actualPlayers = actualListResp.getPlayers();
+
+        PlayerResponse expectedPlayer = new PlayerResponse(
+                expectedResp.getId(),
+                expectedResp.getAge(),
+                expectedResp.getGender(),
+                expectedResp.getRole(),
+                expectedResp.getScreenName());
+
+        assertTrue(actualPlayers.contains(expectedPlayer));
     }
 }

@@ -11,8 +11,13 @@ import restservice.RequestService;
 import restservice.helpers.AssertionsHelper;
 import restservice.pojo.userCreate.request.CreateRequest;
 import restservice.pojo.userCreate.response.CreateResponse;
+import restservice.pojo.userGet.response.PlayerResponse;
+import restservice.pojo.userGet.response.PlayersResponse;
 
+import java.util.List;
 import java.util.Map;
+
+import static org.testng.Assert.assertTrue;
 
 public class CreateSupervisorTest {
 
@@ -49,6 +54,20 @@ public class CreateSupervisorTest {
         CreateResponse expectedResp = rCP.toCreateResponse();
         expectedResp.setId(respCP.jsonPath().get("id"));
         Assert.assertEquals(actualResp, expectedResp, "Fields aren't equal");
+
+        Response listRQ = requestService.send();
+        AssertionsHelper.assertStatusCodeOKAndContentTypeOK(listRQ);
+        PlayersResponse actualListResp = listRQ.as(PlayersResponse.class);
+        List<PlayerResponse> actualPlayers = actualListResp.getPlayers();
+
+        PlayerResponse expectedPlayer = new PlayerResponse(
+                expectedResp.getId(),
+                expectedResp.getAge(),
+                expectedResp.getGender(),
+                expectedResp.getRole(),
+                expectedResp.getScreenName());
+
+        assertTrue(actualPlayers.contains(expectedPlayer));
     }
 
     @DataProvider(name = "invalidAges")
@@ -160,5 +179,19 @@ public class CreateSupervisorTest {
         CreateResponse expectedResp = rCP.toCreateResponse();
         expectedResp.setId(respCP.jsonPath().get("id"));
         Assert.assertEquals(actualResp, expectedResp, "Fields aren't equal");
+
+        Response listRQ = requestService.send();
+        AssertionsHelper.assertStatusCodeOKAndContentTypeOK(listRQ);
+        PlayersResponse actualListResp = listRQ.as(PlayersResponse.class);
+        List<PlayerResponse> actualPlayers = actualListResp.getPlayers();
+
+        PlayerResponse expectedPlayer = new PlayerResponse(
+                expectedResp.getId(),
+                expectedResp.getAge(),
+                expectedResp.getGender(),
+                expectedResp.getRole(),
+                expectedResp.getScreenName());
+
+        assertTrue(actualPlayers.contains(expectedPlayer));
     }
 }

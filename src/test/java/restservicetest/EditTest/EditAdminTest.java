@@ -9,10 +9,15 @@ import restservice.helpers.AssertionsHelper;
 import restservice.RequestService;
 import restservice.pojo.userCreate.request.CreateRequest;
 import restservice.pojo.userCreate.response.CreateResponse;
+import restservice.pojo.userGet.response.PlayerResponse;
+import restservice.pojo.userGet.response.PlayersResponse;
 import restservice.pojo.userPatch.request.PatchRequest;
 import restservice.pojo.userPatch.response.PatchResponse;
 
+import java.util.List;
 import java.util.Map;
+
+import static org.testng.Assert.assertTrue;
 
 public class EditAdminTest {
 
@@ -58,5 +63,19 @@ public class EditAdminTest {
         Assert.assertEquals(actualResp.getLogin(), rCP.getLogin(), "'Login' fields aren't equal");
         Assert.assertEquals(actualResp.getRole(), rCP.getRole(), "'Role' fields aren't equal");
         Assert.assertEquals(actualResp.getScreenName(), rCP.getScreenName(), "'ScreenName' fields aren't equal");
+
+        Response listRQ = requestService.send();
+        AssertionsHelper.assertStatusCodeOKAndContentTypeOK(listRQ);
+        PlayersResponse actualListResp = listRQ.as(PlayersResponse.class);
+        List<PlayerResponse> actualPlayers = actualListResp.getPlayers();
+
+        PlayerResponse expectedPlayer = new PlayerResponse(
+                actualResp.getId(),
+                pCP.getAge(),
+                rCP.getGender(),
+                rCP.getRole(),
+                rCP.getScreenName());
+
+        assertTrue(actualPlayers.contains(expectedPlayer));
     }
 }
