@@ -46,7 +46,7 @@ public class CreateAdminTest {
         AssertionsHelper.assertStatusCodeForbiddenNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @DataProvider(name = "validRoles")

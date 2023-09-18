@@ -4,7 +4,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import restservice.RequestService;
@@ -17,6 +16,7 @@ import restservice.pojo.userGet.response.PlayersResponse;
 import java.util.List;
 import java.util.Map;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class CreateSupervisorTest {
@@ -53,7 +53,7 @@ public class CreateSupervisorTest {
         CreateResponse actualResp = respCP.as(CreateResponse.class);
         CreateResponse expectedResp = rCP.toCreateResponse();
         expectedResp.setId(respCP.jsonPath().get("id"));
-        Assert.assertEquals(actualResp, expectedResp, "Fields aren't equal");
+        assertEquals(actualResp, expectedResp, "Fields aren't equal");
 
         Response listRQ = requestService.send();
         AssertionsHelper.assertStatusCodeOKAndContentTypeOK(listRQ);
@@ -93,7 +93,7 @@ public class CreateSupervisorTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @DataProvider(name = "invalidPassword")
@@ -117,7 +117,7 @@ public class CreateSupervisorTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @Test(description = "Send 'supervisor' role who can't be created")
@@ -132,7 +132,7 @@ public class CreateSupervisorTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @Test(description = "Send 'login' which was already used")
@@ -147,7 +147,7 @@ public class CreateSupervisorTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @Test(description = "Send 'screenName' which was already used")
@@ -162,7 +162,7 @@ public class CreateSupervisorTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @Test(description = "Send another correct user gender")
@@ -178,7 +178,7 @@ public class CreateSupervisorTest {
         CreateResponse actualResp = respCP.as(CreateResponse.class);
         CreateResponse expectedResp = rCP.toCreateResponse();
         expectedResp.setId(respCP.jsonPath().get("id"));
-        Assert.assertEquals(actualResp, expectedResp, "Fields aren't equal");
+        assertEquals(actualResp, expectedResp, "Fields aren't equal");
 
         Response listRQ = requestService.send();
         AssertionsHelper.assertStatusCodeOKAndContentTypeOK(listRQ);

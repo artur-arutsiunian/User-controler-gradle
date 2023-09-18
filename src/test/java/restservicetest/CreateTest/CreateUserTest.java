@@ -2,7 +2,6 @@ package restservicetest.CreateTest;
 
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import restservice.RequestService;
@@ -10,6 +9,8 @@ import restservice.helpers.AssertionsHelper;
 import restservice.pojo.userCreate.request.CreateRequest;
 
 import java.util.Map;
+
+import static org.testng.Assert.assertTrue;
 
 public class CreateUserTest {
 
@@ -44,6 +45,6 @@ public class CreateUserTest {
         AssertionsHelper.assertStatusCodeForbiddenNegative(respCP);
 
         String responseBody = respCP.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 }

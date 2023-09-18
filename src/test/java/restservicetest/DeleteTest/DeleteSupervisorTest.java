@@ -2,7 +2,6 @@ package restservicetest.DeleteTest;
 
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import restservice.RequestService;
@@ -12,6 +11,8 @@ import restservice.pojo.userCreate.response.CreateResponse;
 import restservice.pojo.userDelete.DeleteRequest;
 
 import java.util.Map;
+
+import static org.testng.Assert.assertTrue;
 
 public class DeleteSupervisorTest {
 
@@ -53,7 +54,7 @@ public class DeleteSupervisorTest {
         AssertionsHelper.assertStatusCodeNoContent(respPS);
 
         String responseBody = respPS.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 
     @Test(description = "Remove user with wrong id")
@@ -66,6 +67,6 @@ public class DeleteSupervisorTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respPS);
 
         String responseBody = respPS.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 }

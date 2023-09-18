@@ -2,7 +2,6 @@ package restservicetest;
 
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import restservice.RequestService;
 import restservice.helpers.AssertionsHelper;
@@ -12,6 +11,9 @@ import restservice.pojo.userGet.request.GetRequest;
 import restservice.pojo.userGet.response.GetResponse;
 
 import java.util.Map;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class GetUserTest {
 
@@ -46,7 +48,7 @@ public class GetUserTest {
         GetResponse actualResp = respPS.as(GetResponse.class);
         GetResponse expectedResp = rCP.toGetResponse();
         expectedResp.setId(respCP.jsonPath().get("id"));
-        Assert.assertEquals(actualResp, expectedResp, "Fields aren't equal");
+        assertEquals(actualResp, expectedResp, "Fields aren't equal");
     }
 
     @Test(description = "Receive user with wrong id")
@@ -59,6 +61,6 @@ public class GetUserTest {
         AssertionsHelper.assertStatusCodeBadRequestNegative(respPS);
 
         String responseBody = respPS.asString();
-        Assert.assertTrue(responseBody.isEmpty(), "Response body should be empty.");
+        assertTrue(responseBody.isEmpty(), "Response body should be empty.");
     }
 }
