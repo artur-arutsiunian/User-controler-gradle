@@ -2,8 +2,6 @@ package restservicetest.CreateTest;
 
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import restservice.helpers.AssertionsHelper;
@@ -21,18 +19,14 @@ import static org.testng.Assert.assertTrue;
 public class CreateAdminTest {
 
     private RequestService requestService = RequestService.getInstance();
-    private CreateRequest createReq;
 
-    @BeforeClass
-    public void setup() {
-        createReq = new CreateRequest.Builder()
+       CreateRequest createReq = new CreateRequest.Builder()
                 .buildAge("17")
                 .buildGender("male")
                 .buildLogin("user5")
                 .buildPassword("1234567")
                 .buildScreenName("Use3")
                 .build();
-    }
 
     @Test(description = "Send wrong user role who can't be created")
     @Description("Send wrong type of role with which user can't be created")
